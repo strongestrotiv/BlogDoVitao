@@ -560,9 +560,9 @@
     <section class="like-area" aria-label="Curtir o blog">
         <p>Gostou de conhecer um pouco sobre mim?</p>
         <button class="like-button" id="likeButton" type="button" aria-pressed="false">
-            ♥ &nbsp; CURTIR O BLOG
+            ♡ &nbsp; CURTIR O BLOG
         </button>
-        <span class="like-count" id="likeCount">Carregando...</span>
+        <span class="like-count" id="likeCount" aria-live="polite">Carregando curtidas...</span>
     </section>
 
     <footer>
@@ -573,29 +573,82 @@
 </div>
 
 <script>
+    const SUPABASE_URL = 'https://mzsxmmntduoltyjkbfnc.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_VNveCjr5hvLlsz52Q5q5-Q_a2nCPjYw';
+
     const likeButton = document.getElementById('likeButton');
     const likeCount = document.getElementById('likeCount');
+    const alreadyLiked = localStorage.getItem('blogVitaoLiked') === 'true';
+    let liked = alreadyLiked;
+    let sendingLike = false;
 
-    let liked = localStorage.getItem('blogVitaoLiked') === 'true';
-
-    function updateLikeButton() {
+    function setButtonState() {
         likeButton.classList.toggle('liked', liked);
         likeButton.setAttribute('aria-pressed', String(liked));
+        likeButton.disabled = liked || sendingLike;
         likeButton.innerHTML = liked
             ? '♥ &nbsp; BLOG CURTIDO'
-            : '♡ &nbsp; CURTIR O BLOG';
-        likeCount.textContent = liked
-            ? 'Você curtiu este blog neste navegador!'
-            : 'Sua curtida fica salva neste navegador.';
+            : sendingLike
+                ? 'REGISTRANDO...'
+                : '♡ &nbsp; CURTIR O BLOG';
     }
 
-    likeButton.addEventListener('click', () => {
-        liked = !liked;
-        localStorage.setItem('blogVitaoLiked', String(liked));
-        updateLikeButton();
+    async function loadLikeCount() {
+        try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_blog_likes`, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_PUBLISHABLE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                body: '{}'
+            });
+
+            if (!response.ok) throw new Error('Não foi possível consultar as curtidas.');
+            const count = await response.json();
+            likeCount.textContent = `${count} curtida(s) no total`;
+        } catch (error) {
+            likeCount.textContent = 'Não foi possível carregar o total de curtidas.';
+            console.error(error);
+        }
+    }
+
+    likeButton.addEventListener('click', async () => {
+        if (liked || sendingLike) return;
+
+        sendingLike = true;
+        setButtonState();
+        likeCount.textContent = 'Registrando sua curtida...';
+
+        try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/increment_blog_likes`, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_PUBLISHABLE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                body: '{}'
+            });
+
+            if (!response.ok) throw new Error('Não foi possível registrar sua curtida.');
+            const count = await response.json();
+
+            liked = true;
+            localStorage.setItem('blogVitaoLiked', 'true');
+            likeCount.textContent = `${count} curtida(s) no total`;
+        } catch (error) {
+            likeCount.textContent = 'Erro ao registrar. Tente novamente.';
+            console.error(error);
+        } finally {
+            sendingLike = false;
+            setButtonState();
+        }
     });
 
-    updateLikeButton();
+    setButtonState();
+    loadLikeCount();
 </script>
 
 </body>
