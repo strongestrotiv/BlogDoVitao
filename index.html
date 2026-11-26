@@ -559,10 +559,19 @@
 
     <section class="like-area" aria-label="Curtir o blog">
         <p>Gostou de conhecer um pouco sobre mim?</p>
-        <button class="like-button" id="likeButton" type="button" aria-pressed="false">
-            ♥ &nbsp; CURTIR O BLOG
-        </button>
-        <span class="like-count" id="likeCount">0 curtidas neste navegador</span>
+        <div class="counterapi"
+             ns="strongestrotiv.github.io"
+             action="vote"
+             key="blog-vitao"
+             behavior="vote"
+             icon="heart"
+             label="curtidas"
+             color="#eee4cc"
+             bg="#a33c2d"
+             iconColor="#d8b65d"
+             noLink="true">
+        </div>
+        <span class="like-count">Uma curtida sua ajuda este cantinho a crescer!</span>
     </section>
 
     <footer>
@@ -572,31 +581,7 @@
 
 </div>
 
-<script>
-    const likeButton = document.getElementById('likeButton');
-    const likeCount = document.getElementById('likeCount');
-
-    let liked = localStorage.getItem('blogVitaoLiked') === 'true';
-
-    function updateLikeButton() {
-        likeButton.classList.toggle('liked', liked);
-        likeButton.setAttribute('aria-pressed', String(liked));
-        likeButton.innerHTML = liked
-            ? '♥ &nbsp; BLOG CURTIDO'
-            : '♡ &nbsp; CURTIR O BLOG';
-        likeCount.textContent = liked
-            ? 'Você curtiu este blog neste navegador!'
-            : 'Deixe sua curtida neste navegador!';
-    }
-
-    likeButton.addEventListener('click', () => {
-        liked = !liked;
-        localStorage.setItem('blogVitaoLiked', String(liked));
-        updateLikeButton();
-    });
-
-    updateLikeButton();
-</script>
+<script src="https://counterapi.com/c.js" async></script>
 
 </body>
 </html>
