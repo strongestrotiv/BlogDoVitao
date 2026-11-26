@@ -1,0 +1,514 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog do Vitão - Cinema e Filosofia</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:wght@400;700;900&family=Special+Elite&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --paper: #eee4cc;
+            --paper-dark: #dfd0ae;
+            --red: #a33c2d;
+            --ink: #29271f;
+            --green: #58634a;
+            --yellow: #d8b65d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #d3c5a7;
+            color: var(--ink);
+            font-family: 'DM Mono', monospace;
+            padding: 25px 15px;
+        }
+
+        .page {
+            max-width: 1050px;
+            margin: auto;
+            background: var(--paper);
+            padding: 35px;
+            border: 1px solid #b9a987;
+            box-shadow: 5px 6px 0px #9d8c6d;
+        }
+
+        .topline {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--ink);
+            padding-bottom: 10px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        header {
+            text-align: center;
+            padding: 35px 10px 25px;
+        }
+
+        .edition {
+            color: var(--red);
+            font-family: 'Special Elite', cursive;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(42px, 8vw, 82px);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -3px;
+        }
+
+        .subtitle {
+            margin-top: 15px;
+            font-family: 'Special Elite', cursive;
+            font-size: 16px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 3px double var(--ink);
+            margin: 20px 0;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 25px;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .portrait {
+            background: var(--paper-dark);
+            padding: 10px;
+            border: 1px solid #b9a987;
+            transform: rotate(-2deg);
+        }
+
+        .portrait img {
+            width: 100%;
+            height: 310px;
+            object-fit: cover;
+            filter: sepia(35%) contrast(95%);
+            display: block;
+        }
+
+        .photo-caption {
+            text-align: center;
+            font-family: 'Special Elite', cursive;
+            font-size: 11px;
+            padding: 10px 0 3px;
+        }
+
+        .intro h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            margin-bottom: 12px;
+            color: var(--red);
+        }
+
+        .intro p, .section-text {
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        .stamp {
+            display: inline-block;
+            border: 2px solid var(--red);
+            color: var(--red);
+            padding: 7px 12px;
+            font-family: 'Special Elite', cursive;
+            font-size: 12px;
+            transform: rotate(-4deg);
+            margin-top: 20px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .section-label {
+            font-size: 10px;
+            color: var(--red);
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        section {
+            margin: 35px 0;
+        }
+
+        .relationship {
+            background: var(--red);
+            color: var(--paper);
+            padding: 28px;
+            text-align: center;
+            position: relative;
+        }
+
+        .relationship .section-label {
+            color: var(--yellow);
+        }
+
+        .relationship h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(30px, 5vw, 48px);
+            margin: 8px 0;
+        }
+
+        .relationship p {
+            font-size: 12px;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .heart {
+            font-size: 25px;
+            margin: 10px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            background: #e5d8b9;
+            padding: 18px;
+            border: 1px solid #c8b895;
+        }
+
+        .card .number {
+            color: var(--red);
+            font-family: 'Playfair Display', serif;
+            font-size: 30px;
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 19px;
+            margin: 8px 0;
+        }
+
+        .card p {
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .movies {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 13px;
+        }
+
+        .movie {
+            text-align: center;
+        }
+
+        .movie img {
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            object-fit: cover;
+            border: 4px solid #e2d3b2;
+            box-shadow: 2px 3px 0 #9c8c6c;
+            filter: sepia(12%);
+        }
+
+        .movie h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .movie span {
+            font-size: 10px;
+            color: var(--red);
+        }
+
+        .favorites {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .favorite-box {
+            background: var(--green);
+            color: var(--paper);
+            padding: 22px;
+        }
+
+        .favorite-box h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .favorite-box p {
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        .quote {
+            text-align: center;
+            padding: 35px 15px;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(20px, 4vw, 30px);
+            font-style: italic;
+            line-height: 1.5;
+            color: var(--red);
+        }
+
+        footer {
+            border-top: 3px double var(--ink);
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 650px) {
+            .page {
+                padding: 20px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .portrait img {
+                height: 280px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .movies {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .favorites {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                gap: 10px;
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="topline">
+        <span>Publicação independente</span>
+        <span>Bauru, SP · Brasil</span>
+    </div>
+
+    <header>
+        <div class="edition">Edição especial · Um pouco sobre mim</div>
+        <h1>BLOG DO VITÃO</h1>
+        <p class="subtitle">Cinema, filosofia, histórias e outras curiosidades.</p>
+    </header>
+
+    <hr class="divider">
+
+    <main>
+
+        <div class="hero">
+
+            <div class="portrait">
+                <img src="https://ia601807.us.archive.org/35/items/img-20261024-wa-0231/IMG-20261024-WA0231.jpg"
+                alt="Vitor quando criança">
+                <div class="photo-caption">Um pequeno registro do começo de tudo.</div>
+            </div>
+
+            <div class="intro">
+                <div class="section-label">01 · Prazer, sou eu</div>
+                <h2>Olá, mundo!</h2>
+                <p>
+                    Sou Vitor Henrique Rodrigues Bispo, mas pode me chamar de Vitão.
+                    Sou estudante de Bauru, interior de São Paulo, curioso por natureza
+                    e interessado em descobrir como o mundo funciona.
+                </p>
+                <p style="margin-top: 10px;">
+                    Entre filosofia, cinema, literatura, tecnologia e arte,
+                    estou sempre procurando novas maneiras de aprender,
+                    questionar e enxergar a realidade.
+                </p>
+                <div class="stamp">Curioso desde sempre!</div>
+            </div>
+
+        </div>
+
+        <section class="relationship">
+            <div class="section-label">Uma parte muito especial da minha história</div>
+            <div class="heart">♥</div>
+            <h2>Eu & Julia</h2>
+            <p>
+                Há 3 anos compartilhando momentos, descobertas, risadas
+                e construindo uma história juntos. A Julia é uma das pessoas
+                mais importantes da minha vida e faz parte de quem sou.
+            </p>
+            <div class="heart">♥</div>
+            <p>03 anos de namoro · Uma história que continua sendo escrita.</p>
+        </section>
+
+        <section>
+            <div class="section-label">02 · Um pouco da minha personalidade</div>
+            <h2 class="section-title">O que me move?</h2>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="number">01</div>
+                    <h3>Filosofia</h3>
+                    <p>
+                        Questionar, refletir e tentar compreender as pessoas,
+                        a sociedade e o mundo ao meu redor.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="number">02</div>
+                    <h3>Audiovisual</h3>
+                    <p>
+                        Fotografia, montagem, trilha sonora e narrativas
+                        capazes de despertar emoções e contar histórias.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="number">03</div>
+                    <h3>Pesquisa</h3>
+                    <p>
+                        Bolsista do PIBIC Júnior da UNESP, onde pesquisei
+                        a comunicação da história e da cultura da Aldeia Kopenoti.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section>
+            <div class="section-label">03 · Minha cinefilia</div>
+            <h2 class="section-title">Meu Top 4 do Letterboxd</h2>
+            <p class="section-text" style="margin-bottom: 20px;">
+                Filmes que representam um pouco do que procuro no cinema:
+                experiências marcantes, fotografia, som e emoções.
+            </p>
+
+            <div class="movies">
+
+                <div class="movie">
+                    <img src="https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg"
+                    alt="Pôster de Duna: Parte Dois">
+                    <h3>Duna: Parte Dois</h3>
+                    <span>★★★★★</span>
+                </div>
+
+                <div class="movie">
+                    <img src="https://image.tmdb.org/t/p/w500/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg"
+                    alt="Pôster de Uncut Gems">
+                    <h3>Uncut Gems</h3>
+                    <span>★★★★★</span>
+                </div>
+
+                <div class="movie">
+                    <img src="https://image.tmdb.org/t/p/w500/1p1N3F7dJZ5K0Yj7K4M1Z7b5G5M.jpg"
+                    alt="The Odyssey">
+                    <h3>The Odyssey</h3>
+                    <span>★★★★★</span>
+                </div>
+
+                <div class="movie">
+                    <img src="https://image.tmdb.org/t/p/w500/5mM7Q6lY2y5e5V0M8J5F2Y7.jpg"
+                    alt="Pôster de The Fall">
+                    <h3>The Fall</h3>
+                    <span>★★★★★</span>
+                </div>
+
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section>
+            <div class="section-label">04 · Meus universos favoritos</div>
+            <h2 class="section-title">Muito além do cinema</h2>
+
+            <div class="favorites">
+
+                <div class="favorite-box">
+                    <h3>One Piece</h3>
+                    <p>
+                        Meu anime favorito! Uma aventura sobre amizade,
+                        liberdade, sonhos e perseverança.
+                        A jornada dos Chapéus de Palha é especial
+                        justamente por tudo aquilo que representa.
+                    </p>
+                </div>
+
+                <div class="favorite-box">
+                    <h3>The Legend of Zelda</h3>
+                    <p>
+                        Minha franquia de jogos favorita.
+                        Adoro sua atmosfera, exploração, trilhas sonoras
+                        e a sensação de descobrir um mundo cheio de mistérios.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
+            <div class="section-label">05 · Fora das telas</div>
+            <h2 class="section-title">Outras coisas que fazem parte de mim</h2>
+            <p class="section-text">
+                Também gosto de vôlei, tênis de mesa, literatura,
+                programação e tecnologia. São interesses diferentes,
+                mas todos me proporcionam novas experiências e aprendizados.
+            </p>
+        </section>
+
+        <div class="quote">
+            "Não quero apenas encontrar meu lugar no mundo.
+            Quero compreender o mundo o suficiente para,
+            de alguma forma, ajudar a transformá-lo."
+        </div>
+
+    </main>
+
+    <footer>
+        <span>BLOG DO VITÃO © 2026</span>
+        <span>Feito com curiosidade e um pouco de nostalgia.</span>
+    </footer>
+
+</div>
+
+</body>
+</html>
