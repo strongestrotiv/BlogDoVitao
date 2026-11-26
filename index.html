@@ -154,11 +154,21 @@
         }
 
         .relationship {
-            background: var(--red);
+            background:
+                linear-gradient(rgba(65, 25, 20, 0.70), rgba(65, 25, 20, 0.78)),
+                url("images/eu-e-ju.jpg") center 45% / cover no-repeat;
             color: var(--paper);
-            padding: 28px;
+            padding: 38px 28px;
             text-align: center;
             position: relative;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border: 5px solid var(--paper-dark);
+            outline: 1px solid #b9a987;
         }
 
         .relationship .section-label {
